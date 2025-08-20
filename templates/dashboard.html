@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Semantic Anomaly Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #09357d, #00bcd4);
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    h2 {
+      font-size: 1.4em;
+      margin-top: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 8px;
+    }
+
+    pre {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 0.95em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    img {
+      margin-top: 15px;
+      border: 3px solid white;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+  </style>
+
+  <script>
+    async function loadData() {
+      const metricsRes = await fetch("/metrics");
+      const metrics = await metricsRes.json();
+
+      const alertsRes = await fetch("/alerts");
+      const alerts = await alertsRes.json();
+
+      document.getElementById("metrics").innerText = JSON.stringify(metrics, null, 2);
+      document.getElementById("alerts").innerText = JSON.stringify(alerts, null, 2);
+    }
+
+    window.onload = loadData;
+  </script>
+</head>
+
+<body>
+  <h1>Semantic Anomaly Monitor</h1>
+
+  <h2> Current Metrics</h2>
+  <pre id="metrics">Loading...</pre>
+
+  <h2>⚠️ Recent Alerts</h2>
+  <pre id="alerts">Loading...</pre>
+
+  <h2> Usage Chart</h2>
+  <img src="/static/usage_chart.png" alt="Usage Chart" width="100%">
+</body>
+</html>
